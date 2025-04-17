@@ -11,7 +11,6 @@ class ChatWidget extends StatefulWidget {
   static String routeName = 'Chat';
   static String routePath = '/chat';
 
-
   @override
   State<ChatWidget> createState() => _ChatWidgetState();
 }
@@ -29,7 +28,6 @@ class _ChatWidgetState extends State<ChatWidget> {
 
     final prefs = await SharedPreferences.getInstance();
     final token = prefs.getString('access_token');
-
     final url = Uri.parse('http://${Config.baseUrl}:8080/ask');
 
     try {
@@ -70,24 +68,28 @@ class _ChatWidgetState extends State<ChatWidget> {
 
   Widget _buildBubble(Map<String, String> message) {
     final isUser = message['role'] == 'user';
-    final bgColor = isUser
+    final bubbleColor = isUser
         ? FlutterFlowTheme.of(context).primary
         : FlutterFlowTheme.of(context).secondaryBackground;
-    final textColor = isUser ? Colors.white : Colors.black87;
+    final textColor = isUser ? Colors.white : Colors.white;
 
     return Align(
       alignment: isUser ? Alignment.centerRight : Alignment.centerLeft,
       child: Container(
         margin: const EdgeInsets.symmetric(vertical: 6),
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-        constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.7),
+        constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.75),
         decoration: BoxDecoration(
-          color: bgColor,
+          color: bubbleColor,
           borderRadius: BorderRadius.circular(16),
         ),
         child: Text(
           message['text'] ?? '',
-          style: TextStyle(color: textColor, fontSize: 16),
+          style: FlutterFlowTheme.of(context).bodyMedium.override(
+                fontFamily: 'Urbanist',
+                color: textColor,
+                fontSize: 16,
+              ),
         ),
       ),
     );
@@ -100,6 +102,7 @@ class _ChatWidgetState extends State<ChatWidget> {
       appBar: AppBar(
         title: const Text("Chat with AI"),
         backgroundColor: FlutterFlowTheme.of(context).primary,
+        centerTitle: true,
       ),
       body: SafeArea(
         child: Column(
@@ -114,7 +117,7 @@ class _ChatWidgetState extends State<ChatWidget> {
             ),
             Container(
               color: FlutterFlowTheme.of(context).secondaryBackground,
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
               child: Row(
                 children: [
                   Expanded(
@@ -133,6 +136,7 @@ class _ChatWidgetState extends State<ChatWidget> {
                           borderSide: BorderSide.none,
                         ),
                       ),
+                      style: FlutterFlowTheme.of(context).bodyMedium,
                     ),
                   ),
                   const SizedBox(width: 8),
