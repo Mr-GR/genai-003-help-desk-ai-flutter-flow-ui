@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import '/flutter_flow/flutter_flow_theme.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '/config.dart';
 
 class ChatWidget extends StatefulWidget {
@@ -19,19 +20,25 @@ class _ChatWidgetState extends State<ChatWidget> {
   final TextEditingController _controller = TextEditingController();
   final ScrollController _scrollController = ScrollController();
 
-  List<Map<String, String>> messages = []; // {'role': 'user'/'ai', 'text': ''}
+  List<Map<String, String>> messages = [];
 
   Future<void> sendMessage(String question) async {
     setState(() {
       messages.add({'role': 'user', 'text': question});
     });
 
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('access_token');
+
     final url = Uri.parse('http://${Config.baseUrl}:8080/ask');
 
     try {
       final response = await http.post(
         url,
-        headers: {"Content-Type": "application/json"},
+        headers: {
+          "Content-Type": "application/json",
+          if (token != null) "Authorization": "Bearer $token",
+        },
         body: jsonEncode({'question': question}),
       );
 
@@ -42,7 +49,7 @@ class _ChatWidgetState extends State<ChatWidget> {
           messages.add({'role': 'ai', 'text': answer});
         });
       } else {
-        throw Exception('Failed to get response');
+        throw Exception('Failed to get response: ${response.statusCode}');
       }
     } catch (e) {
       setState(() {
@@ -52,7 +59,6 @@ class _ChatWidgetState extends State<ChatWidget> {
 
     _controller.clear();
 
-    // Scroll to bottom after a slight delay
     Future.delayed(const Duration(milliseconds: 100), () {
       _scrollController.animateTo(
         _scrollController.position.maxScrollExtent,
