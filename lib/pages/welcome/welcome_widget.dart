@@ -149,7 +149,7 @@ class _WelcomeWidgetState extends State<WelcomeWidget> {
                         context.pushNamed(HomeWidget.routeName);
                       },
                       child: Text(
-                        'Continue as Guest',
+                        '',
                         style: FlutterFlowTheme.of(context).bodyMedium.override(
                               fontFamily: 'Urbanist',
                               fontSize: 16.0,
