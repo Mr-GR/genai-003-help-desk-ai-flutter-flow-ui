@@ -19,6 +19,7 @@ class ChatWidget extends StatefulWidget {
 }
 
 class _ChatWidgetState extends State<ChatWidget> {
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   final TextEditingController _controller = TextEditingController();
   final ScrollController _scrollController = ScrollController();
 
@@ -106,32 +107,15 @@ class _ChatWidgetState extends State<ChatWidget> {
       backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
-        centerTitle: true,
         elevation: 0,
-        automaticallyImplyLeading: false, 
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
+        automaticallyImplyLeading: false,
+        title: Stack(
+          alignment: Alignment.center,
           children: [
-            GestureDetector(
-              onTap: () {
-                context.pushNamed(HomeWidget.routeName);
-              },
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(8.0),
-                child: Image.asset(
-                  'assets/images/Subtract_(3).png',
-                  width: 25.0,
-                  height: 25.0,
-                  fit: BoxFit.contain,
-                ),
-              ),
-            ),
+            // Centered Get Pro Button
             InkWell(
               splashColor: Colors.transparent,
-              focusColor: Colors.transparent,
-              hoverColor: Colors.transparent,
-              highlightColor: Colors.transparent,
-              onTap: () async {
+              onTap: () {
                 context.pushNamed(ProPlansWidget.routeName);
               },
               child: Container(
@@ -140,8 +124,9 @@ class _ChatWidgetState extends State<ChatWidget> {
                   borderRadius: BorderRadius.circular(8.0),
                 ),
                 child: Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(10.0, 3.0, 10.0, 3.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 6.0),
                   child: Row(
+                    mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
                         'Get Pro',
@@ -150,13 +135,44 @@ class _ChatWidgetState extends State<ChatWidget> {
                               letterSpacing: 0.0,
                             ),
                       ),
-                      const SizedBox(width: 10),
+                      const SizedBox(width: 8),
                       Icon(
                         Icons.auto_awesome_rounded,
                         color: FlutterFlowTheme.of(context).primary,
-                        size: 24.0,
+                        size: 22.0,
                       ),
                     ],
+                  ),
+                ),
+              ),
+            ),
+            // Left Icon
+            Align(
+              alignment: Alignment.centerLeft,
+              child: GestureDetector(
+                onTap: () => context.pushNamed(HomeWidget.routeName),
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 8.0),
+                  child: Image.asset(
+                    'assets/images/Subtract_(3).png',
+                    width: 25.0,
+                    height: 25.0,
+                    fit: BoxFit.contain,
+                  ),
+                ),
+              ),
+            ),
+            // Right Hamburger
+            Align(
+              alignment: Alignment.centerRight,
+              child: InkWell(
+                onTap: () => scaffoldKey.currentState?.openDrawer(),
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: Icon(
+                    FFIcons.kmenu,
+                    color: FlutterFlowTheme.of(context).primaryText,
+                    size: 28.0,
                   ),
                 ),
               ),
