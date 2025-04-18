@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
@@ -22,18 +23,21 @@ class _ChatWidgetState extends State<ChatWidget> {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   final TextEditingController _controller = TextEditingController();
   final ScrollController _scrollController = ScrollController();
+  bool isAwaitingResponse = false;
 
   List<Map<String, String>> messages = [];
 
   Future<void> sendMessage(String question) async {
     setState(() {
       messages.add({'role': 'user', 'text': question});
+      isAwaitingResponse = true; 
     });
 
     final prefs = await SharedPreferences.getInstance();
     final token = prefs.getString('access_token');
-
     final url = Uri.parse('http://${Config.baseUrl}:8080/ask');
+
+    await Future.delayed(Duration(seconds: 2));
 
     try {
       final response = await http.post(
@@ -49,19 +53,21 @@ class _ChatWidgetState extends State<ChatWidget> {
         final answer = jsonDecode(response.body)["answer"];
         setState(() {
           messages.add({'role': 'ai', 'text': answer});
+          isAwaitingResponse = false;
         });
       } else {
         setState(() {
           messages.add({
             'role': 'ai',
-            'text':
-                '❌ Error: ${response.statusCode} ${response.reasonPhrase ?? 'Unknown error'}'
+            'text': '❌ Error: ${response.statusCode} ${response.reasonPhrase ?? 'Unknown error'}'
           });
+          isAwaitingResponse = false;
         });
       }
     } catch (e) {
       setState(() {
         messages.add({'role': 'ai', 'text': '⚠️ Network error: $e'});
+        isAwaitingResponse = false;
       });
     }
 
@@ -78,25 +84,47 @@ class _ChatWidgetState extends State<ChatWidget> {
   Widget _buildBubble(Map<String, String> message) {
     final isUser = message['role'] == 'user';
     final bgColor = isUser
-        ? FlutterFlowTheme.of(context).primary
+        ? FlutterFlowTheme.of(context).secondaryBackground
         : FlutterFlowTheme.of(context).secondaryBackground;
-    final textColor = isUser ? Colors.white : Colors.black87;
+    final textColor = isUser ? Colors.white : Colors.white;
 
     return Align(
       alignment: isUser ? Alignment.centerRight : Alignment.centerLeft,
-      child: Container(
-        margin: const EdgeInsets.symmetric(vertical: 6),
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-        constraints:
-            BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.7),
-        decoration: BoxDecoration(
-          color: bgColor,
-          borderRadius: BorderRadius.circular(16),
-        ),
-        child: Text(
-          message['text'] ?? '',
-          style: TextStyle(color: textColor, fontSize: 16),
-        ),
+      child: Row(
+        mainAxisAlignment:
+            isUser ? MainAxisAlignment.end : MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (!isUser)
+            Padding(
+              padding: const EdgeInsets.only(right: 6.0),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(4.0),
+                child: Image.asset(
+                  'assets/images/Subtract_(3).png',
+                  width: 20.0,
+                  height: 20.0,
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+          Flexible(
+            child: Container(
+              margin: const EdgeInsets.symmetric(vertical: 6),
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+              constraints: BoxConstraints(
+                  maxWidth: MediaQuery.of(context).size.width * 0.7),
+              decoration: BoxDecoration(
+                color: bgColor,
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: Text(
+                message['text'] ?? '',
+                style: TextStyle(color: textColor, fontSize: 16),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -112,7 +140,6 @@ class _ChatWidgetState extends State<ChatWidget> {
         title: Stack(
           alignment: Alignment.center,
           children: [
-            // Centered Get Pro Button
             InkWell(
               splashColor: Colors.transparent,
               onTap: () {
@@ -146,7 +173,6 @@ class _ChatWidgetState extends State<ChatWidget> {
                 ),
               ),
             ),
-            // Left Icon
             Align(
               alignment: Alignment.centerLeft,
               child: GestureDetector(
@@ -162,7 +188,6 @@ class _ChatWidgetState extends State<ChatWidget> {
                 ),
               ),
             ),
-            // Right Hamburger
             Align(
               alignment: Alignment.centerRight,
               child: InkWell(
@@ -184,18 +209,56 @@ class _ChatWidgetState extends State<ChatWidget> {
         child: Column(
           children: [
             Expanded(
-              child: ListView.builder(
+              child: ListView(
                 controller: _scrollController,
                 padding: const EdgeInsets.all(16),
-                itemCount: messages.length,
-                itemBuilder: (context, index) => _buildBubble(messages[index]),
+                children: [
+                  ...messages.map((m) => _buildBubble(m)).toList(),
+                  if (isAwaitingResponse)
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Container(
+                        margin: const EdgeInsets.symmetric(vertical: 6),
+                        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+                        constraints: BoxConstraints(
+                          maxWidth: MediaQuery.of(context).size.width * 0.7,
+                        ),
+                        decoration: BoxDecoration(
+                          color: FlutterFlowTheme.of(context).secondaryBackground,
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        child: DefaultTextStyle(
+                          style: TextStyle(
+                            fontSize: 16.0,
+                            color: Colors.white,
+                          ),
+                          child: AnimatedTextKit(
+                            repeatForever: true,
+                            isRepeatingAnimation: true,
+                            animatedTexts: [
+                              TyperAnimatedText('Typing...'),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                ],
               ),
             ),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-              color: FlutterFlowTheme.of(context).secondaryBackground,
+              color: Colors.transparent,
               child: Row(
                 children: [
+                  IconButton(
+                    icon: Icon(
+                      FFIcons.kattachment,
+                      color: FlutterFlowTheme.of(context).secondaryText,
+                    ),
+                    onPressed: () {
+                      // TODO: Add file picker logic
+                    },
+                  ),
                   Expanded(
                     child: TextField(
                       controller: _controller,
@@ -205,11 +268,11 @@ class _ChatWidgetState extends State<ChatWidget> {
                         }
                       },
                       decoration: InputDecoration(
-                        hintText: 'Ask me anything...',
+                        hintText: 'Ask me an IT question..',
                         filled: true,
-                        fillColor: Colors.white,
-                        contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 14, vertical: 10),
+                        fillColor: FlutterFlowTheme.of(context).secondaryBackground,
+                        contentPadding:
+                            const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30),
                           borderSide: BorderSide.none,
@@ -217,20 +280,50 @@ class _ChatWidgetState extends State<ChatWidget> {
                       ),
                     ),
                   ),
-                  const SizedBox(width: 8),
+                  const SizedBox(width: 5),
                   IconButton(
-                    icon: const Icon(Icons.send),
-                    color: FlutterFlowTheme.of(context).primary,
+                    icon: Icon(
+                      FFIcons.kmicrophone11,
+                      color: FlutterFlowTheme.of(context).secondaryText,
+                    ),
                     onPressed: () {
-                      final question = _controller.text.trim();
-                      if (question.isNotEmpty) {
-                        sendMessage(question);
-                      }
+                      // TODO: Add mic input logic
                     },
-                  )
+                  ),
+                  const SizedBox(width: 5),
+                  Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          FlutterFlowTheme.of(context).primary,
+                          FlutterFlowTheme.of(context).secondary,
+                        ],
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                      ),
+                      shape: BoxShape.circle,
+                    ),
+                    child: InkWell(
+                      onTap: () {
+                        final question = _controller.text.trim();
+                        if (question.isNotEmpty) {
+                          sendMessage(question);
+                        }
+                      },
+                      borderRadius: BorderRadius.circular(100),
+                      child: Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: Icon(
+                          FFIcons.ksend238,
+                          color: FlutterFlowTheme.of(context).info,
+                          size: 24.0,
+                        ),
+                      ),
+                    ),
+                  ),
                 ],
               ),
-            )
+            ),
           ],
         ),
       ),
