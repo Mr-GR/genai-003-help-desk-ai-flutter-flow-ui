@@ -201,7 +201,7 @@ class _OnboardingWidgetState extends State<OnboardingWidget> {
                                             MainAxisAlignment.end,
                                         children: [
                                           Text(
-                                            'The ultimate AI ChatBot app of the century.',
+                                            'A tailored AI ChatBot for your company needs.',
                                             textAlign: TextAlign.center,
                                             style: FlutterFlowTheme.of(context)
                                                 .bodyMedium
@@ -213,8 +213,8 @@ class _OnboardingWidgetState extends State<OnboardingWidget> {
                                                   lineHeight: 1.4,
                                                 ),
                                           ),
-                                          Text(
-                                            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi ultricies iaculis mi at consequat. ',
+                                            Text(
+                                            '',
                                             textAlign: TextAlign.center,
                                             style: FlutterFlowTheme.of(context)
                                                 .bodyMedium
@@ -370,7 +370,7 @@ class _OnboardingWidgetState extends State<OnboardingWidget> {
                                             MainAxisAlignment.end,
                                         children: [
                                           Text(
-                                            'Multiple AI assistants available to enhance your experience.',
+                                            'Multiple AI configurations available to tailor your experience.',
                                             textAlign: TextAlign.center,
                                             style: FlutterFlowTheme.of(context)
                                                 .bodyMedium
@@ -383,7 +383,7 @@ class _OnboardingWidgetState extends State<OnboardingWidget> {
                                                 ),
                                           ),
                                           Text(
-                                            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi ultricies iaculis mi at consequat. ',
+                                            '',
                                             textAlign: TextAlign.center,
                                             style: FlutterFlowTheme.of(context)
                                                 .bodyMedium
@@ -552,7 +552,7 @@ class _OnboardingWidgetState extends State<OnboardingWidget> {
                                                 ),
                                           ),
                                           Text(
-                                            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi ultricies iaculis mi at consequat. ',
+                                            '',
                                             textAlign: TextAlign.center,
                                             style: FlutterFlowTheme.of(context)
                                                 .bodyMedium

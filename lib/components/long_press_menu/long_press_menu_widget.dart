@@ -5,7 +5,9 @@ import 'long_press_menu_model.dart';
 export 'long_press_menu_model.dart';
 
 class LongPressMenuWidget extends StatefulWidget {
-  const LongPressMenuWidget({super.key});
+  final Future<void> Function()? onDelete;
+
+  const LongPressMenuWidget({super.key, this.onDelete});
 
   @override
   State<LongPressMenuWidget> createState() => _LongPressMenuWidgetState();
@@ -29,17 +31,16 @@ class _LongPressMenuWidgetState extends State<LongPressMenuWidget> {
   @override
   void dispose() {
     _model.maybeDispose();
-
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 250.0,
+      width: 250,
       decoration: BoxDecoration(
         color: FlutterFlowTheme.of(context).secondaryBackground,
-        borderRadius: BorderRadius.circular(20.0),
+        borderRadius: BorderRadius.circular(20),
         border: Border.all(
           color: FlutterFlowTheme.of(context).alternate,
           width: 0.5,
@@ -48,157 +49,100 @@ class _LongPressMenuWidgetState extends State<LongPressMenuWidget> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Padding(
-            padding: EdgeInsetsDirectional.fromSTEB(20.0, 0.0, 20.0, 0.0),
-            child: Row(
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Icon(
-                  FFIcons.kcopy05,
-                  color: FlutterFlowTheme.of(context).primaryText,
-                  size: 24.0,
-                ),
-                Text(
-                  'Copy',
-                  style: FlutterFlowTheme.of(context).bodyMedium.override(
-                        fontFamily: 'Urbanist',
-                        fontSize: 16.0,
-                        letterSpacing: 0.0,
-                      ),
-                ),
-              ].divide(SizedBox(width: 15.0)),
-            ),
+          _buildMenuItem(
+            icon: FFIcons.kcopy05,
+            label: 'Copy',
           ),
-          Divider(
-            height: 1.0,
-            color: FlutterFlowTheme.of(context).alternate,
+          _divider(),
+          _buildMenuItem(
+            icon: FFIcons.kclipboardText10,
+            label: 'Select text',
           ),
-          Padding(
-            padding: EdgeInsetsDirectional.fromSTEB(20.0, 0.0, 20.0, 0.0),
-            child: Row(
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Icon(
-                  FFIcons.kclipboardText10,
-                  color: FlutterFlowTheme.of(context).primaryText,
-                  size: 24.0,
-                ),
-                Text(
-                  'Select text',
-                  style: FlutterFlowTheme.of(context).bodyMedium.override(
-                        fontFamily: 'Urbanist',
-                        fontSize: 16.0,
-                        letterSpacing: 0.0,
-                      ),
-                ),
-              ].divide(SizedBox(width: 15.0)),
-            ),
+          _divider(),
+          _buildMenuItem(
+            icon: FFIcons.klike,
+            label: 'Good Response',
           ),
-          Divider(
-            height: 1.0,
-            color: FlutterFlowTheme.of(context).alternate,
+          _divider(),
+          _buildMenuItem(
+            icon: FFIcons.kdislike,
+            label: 'Bad Response',
           ),
-          Padding(
-            padding: EdgeInsetsDirectional.fromSTEB(20.0, 0.0, 20.0, 0.0),
-            child: Row(
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Icon(
-                  FFIcons.klike,
-                  color: FlutterFlowTheme.of(context).primaryText,
-                  size: 24.0,
-                ),
-                Text(
-                  'Good Response',
-                  style: FlutterFlowTheme.of(context).bodyMedium.override(
-                        fontFamily: 'Urbanist',
-                        fontSize: 16.0,
-                        letterSpacing: 0.0,
-                      ),
-                ),
-              ].divide(SizedBox(width: 15.0)),
-            ),
+          _divider(),
+          _buildMenuItem(
+            icon: Icons.graphic_eq_rounded,
+            label: 'Read aloud',
           ),
-          Divider(
-            height: 1.0,
-            color: FlutterFlowTheme.of(context).alternate,
+          _divider(),
+          _buildMenuItem(
+            icon: FFIcons.krefresh1,
+            label: 'Regenerate',
           ),
-          Padding(
-            padding: EdgeInsetsDirectional.fromSTEB(20.0, 0.0, 20.0, 0.0),
-            child: Row(
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Icon(
-                  FFIcons.kdislike,
-                  color: FlutterFlowTheme.of(context).primaryText,
-                  size: 24.0,
-                ),
-                Text(
-                  'Bad Response',
-                  style: FlutterFlowTheme.of(context).bodyMedium.override(
-                        fontFamily: 'Urbanist',
-                        fontSize: 16.0,
-                        letterSpacing: 0.0,
-                      ),
-                ),
-              ].divide(SizedBox(width: 15.0)),
-            ),
-          ),
-          Divider(
-            height: 1.0,
-            color: FlutterFlowTheme.of(context).alternate,
-          ),
-          Padding(
-            padding: EdgeInsetsDirectional.fromSTEB(20.0, 0.0, 20.0, 0.0),
-            child: Row(
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Icon(
-                  Icons.graphic_eq_rounded,
-                  color: FlutterFlowTheme.of(context).primaryText,
-                  size: 24.0,
-                ),
-                Text(
-                  'Read loud',
-                  style: FlutterFlowTheme.of(context).bodyMedium.override(
-                        fontFamily: 'Urbanist',
-                        fontSize: 16.0,
-                        letterSpacing: 0.0,
-                      ),
-                ),
-              ].divide(SizedBox(width: 15.0)),
-            ),
-          ),
-          Divider(
-            height: 1.0,
-            color: FlutterFlowTheme.of(context).alternate,
-          ),
-          Padding(
-            padding: EdgeInsetsDirectional.fromSTEB(20.0, 0.0, 20.0, 0.0),
-            child: Row(
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Icon(
-                  FFIcons.krefresh1,
-                  color: FlutterFlowTheme.of(context).primaryText,
-                  size: 24.0,
-                ),
-                Text(
-                  'Regenerate',
-                  style: FlutterFlowTheme.of(context).bodyMedium.override(
-                        fontFamily: 'Urbanist',
-                        fontSize: 16.0,
-                        letterSpacing: 0.0,
-                      ),
-                ),
-              ].divide(SizedBox(width: 15.0)),
+          _divider(),
+          GestureDetector(
+            onTap: () async {
+              Navigator.pop(context); // Close menu
+              if (widget.onDelete != null) {
+                await widget.onDelete!(); // Perform deletion
+              }
+            },
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.delete_outline,
+                    color: FlutterFlowTheme.of(context).error,
+                    size: 24,
+                  ),
+                  const SizedBox(width: 15),
+                  Text(
+                    'Delete Chat',
+                    style: FlutterFlowTheme.of(context).bodyMedium.override(
+                          fontFamily: 'Urbanist',
+                          color: FlutterFlowTheme.of(context).error,
+                          fontSize: 16,
+                          letterSpacing: 0,
+                        ),
+                  ),
+                ],
+              ),
             ),
           ),
         ]
-            .divide(SizedBox(height: 15.0))
-            .addToStart(SizedBox(height: 20.0))
-            .addToEnd(SizedBox(height: 20.0)),
+            .divide(const SizedBox(height: 15))
+            .addToStart(const SizedBox(height: 20))
+            .addToEnd(const SizedBox(height: 20)),
       ),
     );
   }
+
+  Widget _buildMenuItem({required IconData icon, required String label}) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: Row(
+        children: [
+          Icon(
+            icon,
+            color: FlutterFlowTheme.of(context).primaryText,
+            size: 24,
+          ),
+          const SizedBox(width: 15),
+          Text(
+            label,
+            style: FlutterFlowTheme.of(context).bodyMedium.override(
+                  fontFamily: 'Urbanist',
+                  fontSize: 16,
+                  letterSpacing: 0,
+                ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _divider() => Divider(
+        height: 1,
+        color: FlutterFlowTheme.of(context).alternate,
+      );
 }

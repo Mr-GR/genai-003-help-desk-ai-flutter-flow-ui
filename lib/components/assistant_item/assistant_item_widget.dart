@@ -120,7 +120,7 @@ class _AssistantItemWidgetState extends State<AssistantItemWidget> {
                     ),
               ),
               Text(
-                'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam fringilla ante lacus,',
+                '',
                 maxLines: 3,
                 style: FlutterFlowTheme.of(context).bodyMedium.override(
                       fontFamily: 'Urbanist',

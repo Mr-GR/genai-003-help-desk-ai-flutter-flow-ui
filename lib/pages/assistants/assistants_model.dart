@@ -1,61 +1,69 @@
+import 'package:help_desk/config.dart';
 import '/components/assistant_item/assistant_item_widget.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/form_field_controller.dart';
 import 'assistants_widget.dart' show AssistantsWidget;
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:help_desk/models/tickets.dart';
 
 class AssistantsModel extends FlutterFlowModel<AssistantsWidget> {
   ///  State fields for stateful widgets in this page.
 
-  // State field(s) for ChoiceChips widget.
+  // ChoiceChips
   FormFieldController<List<String>>? choiceChipsValueController;
   String? get choiceChipsValue =>
       choiceChipsValueController?.value?.firstOrNull;
   set choiceChipsValue(String? val) =>
       choiceChipsValueController?.value = val != null ? [val] : [];
-  // Model for AssistantItem component.
+
+  // Ticket list
+  List<Ticket> tickets = [];
+
+  Future<void> fetchTickets() async {
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('access_token');
+
+    final response = await http.get(
+      Uri.parse('http://${Config.baseUrl}:8080/tickets'), 
+      headers: {
+        'Authorization': 'Bearer $token',
+        'Content-Type': 'application/json',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final List<dynamic> data = jsonDecode(response.body);
+      tickets = data.map((json) => Ticket.fromJson(json)).toList();
+    } else {
+      throw Exception('Failed to fetch tickets');
+    }
+  }
+
+  // AssistantItem Models
   late AssistantItemModel assistantItemModel1;
-  // Model for AssistantItem component.
   late AssistantItemModel assistantItemModel2;
-  // Model for AssistantItem component.
   late AssistantItemModel assistantItemModel3;
-  // Model for AssistantItem component.
   late AssistantItemModel assistantItemModel4;
-  // Model for AssistantItem component.
   late AssistantItemModel assistantItemModel5;
-  // Model for AssistantItem component.
   late AssistantItemModel assistantItemModel6;
-  // Model for AssistantItem component.
   late AssistantItemModel assistantItemModel7;
-  // Model for AssistantItem component.
   late AssistantItemModel assistantItemModel8;
-  // Model for AssistantItem component.
   late AssistantItemModel assistantItemModel9;
-  // Model for AssistantItem component.
   late AssistantItemModel assistantItemModel10;
-  // Model for AssistantItem component.
   late AssistantItemModel assistantItemModel11;
-  // Model for AssistantItem component.
   late AssistantItemModel assistantItemModel12;
-  // Model for AssistantItem component.
   late AssistantItemModel assistantItemModel13;
-  // Model for AssistantItem component.
   late AssistantItemModel assistantItemModel14;
-  // Model for AssistantItem component.
   late AssistantItemModel assistantItemModel15;
-  // Model for AssistantItem component.
   late AssistantItemModel assistantItemModel16;
-  // Model for AssistantItem component.
   late AssistantItemModel assistantItemModel17;
-  // Model for AssistantItem component.
   late AssistantItemModel assistantItemModel18;
-  // Model for AssistantItem component.
   late AssistantItemModel assistantItemModel19;
-  // Model for AssistantItem component.
   late AssistantItemModel assistantItemModel20;
-  // Model for AssistantItem component.
   late AssistantItemModel assistantItemModel21;
-  // Model for AssistantItem component.
   late AssistantItemModel assistantItemModel22;
 
   @override

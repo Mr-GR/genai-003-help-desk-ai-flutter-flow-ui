@@ -10,7 +10,7 @@ export '/pages/reset_password/reset_password_widget.dart'
     show ResetPasswordWidget;
 export '/pages/chat/chat_widget.dart' show ChatWidget;
 export '/pages/assistants/assistants_widget.dart' show AssistantsWidget;
-export '/pages/assistant_chat/assistant_chat_widget.dart'
+export 'pages/assistant_chat/assistant_chat_widget.dart'
     show AssistantChatWidget;
 export '/pages/search/search_widget.dart' show SearchWidget;
 export '/pages/history/history_widget.dart' show HistoryWidget;

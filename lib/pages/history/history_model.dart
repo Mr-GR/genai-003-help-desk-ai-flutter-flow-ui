@@ -1,57 +1,46 @@
-import '/components/history_item/history_item_widget.dart';
-import '/flutter_flow/flutter_flow_util.dart';
-import '/flutter_flow/form_field_controller.dart';
-import '/index.dart';
+import 'dart:convert';
+import 'package:help_desk/services/chat_message_service.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+import '/config.dart';
+import '/models/chat.dart';
 import 'history_widget.dart' show HistoryWidget;
 import 'package:flutter/material.dart';
+import '/flutter_flow/form_field_controller.dart';
+import '/flutter_flow/flutter_flow_util.dart';
 
 class HistoryModel extends FlutterFlowModel<HistoryWidget> {
-  ///  State fields for stateful widgets in this page.
+    List<ChatMessage> chatMessages = [];
 
-  // State field(s) for ChoiceChips widget.
+  Future<void> fetchChatHistory() async {
+    final fetchedChats = await ChatService.fetchUserChats();
+    chatMessages = fetchedChats;
+  }
   FormFieldController<List<String>>? choiceChipsValueController;
   String? get choiceChipsValue =>
       choiceChipsValueController?.value?.firstOrNull;
   set choiceChipsValue(String? val) =>
       choiceChipsValueController?.value = val != null ? [val] : [];
-  // Model for HistoryItem component.
-  late HistoryItemModel historyItemModel1;
-  // Model for HistoryItem component.
-  late HistoryItemModel historyItemModel2;
-  // Model for HistoryItem component.
-  late HistoryItemModel historyItemModel3;
-  // Model for HistoryItem component.
-  late HistoryItemModel historyItemModel4;
-  // Model for HistoryItem component.
-  late HistoryItemModel historyItemModel5;
-  // Model for HistoryItem component.
-  late HistoryItemModel historyItemModel6;
-  // Model for HistoryItem component.
-  late HistoryItemModel historyItemModel7;
-  // Model for HistoryItem component.
-  late HistoryItemModel historyItemModel8;
+
+  List<ChatMessage> messages = [];
+
+  Future<void> deleteChatMessage(int messageId) async {
+    try {
+      await ChatService.deleteChatMessage(messageId);
+      // After deleting, fetch the updated chat history again
+      await fetchChatHistory();
+    } catch (e) {
+      print('Failed to delete chat message: $e');
+    }
+  }
 
   @override
   void initState(BuildContext context) {
-    historyItemModel1 = createModel(context, () => HistoryItemModel());
-    historyItemModel2 = createModel(context, () => HistoryItemModel());
-    historyItemModel3 = createModel(context, () => HistoryItemModel());
-    historyItemModel4 = createModel(context, () => HistoryItemModel());
-    historyItemModel5 = createModel(context, () => HistoryItemModel());
-    historyItemModel6 = createModel(context, () => HistoryItemModel());
-    historyItemModel7 = createModel(context, () => HistoryItemModel());
-    historyItemModel8 = createModel(context, () => HistoryItemModel());
+    // no more static history items needed!
   }
 
   @override
   void dispose() {
-    historyItemModel1.dispose();
-    historyItemModel2.dispose();
-    historyItemModel3.dispose();
-    historyItemModel4.dispose();
-    historyItemModel5.dispose();
-    historyItemModel6.dispose();
-    historyItemModel7.dispose();
-    historyItemModel8.dispose();
+    // no more static models to dispose!
   }
 }

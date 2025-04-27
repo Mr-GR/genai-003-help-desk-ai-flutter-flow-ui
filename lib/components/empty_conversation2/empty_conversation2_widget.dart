@@ -57,7 +57,7 @@ class _EmptyConversation2WidgetState extends State<EmptyConversation2Widget> {
           ),
         ),
         Text(
-          'How may I help you today?',
+          'Need to add more context to your ticket?',
           textAlign: TextAlign.center,
           style: FlutterFlowTheme.of(context).bodyMedium.override(
                 fontFamily: 'Urbanist',
@@ -72,7 +72,7 @@ class _EmptyConversation2WidgetState extends State<EmptyConversation2Widget> {
           text: TextSpan(
             children: [
               TextSpan(
-                text: 'I can do anything about ',
+                text: 'Remember your ',
                 style: TextStyle(),
               ),
               TextSpan(

@@ -171,7 +171,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                       onPressed: () async {
                         context.pushNamed(AssistantsWidget.routeName);
                       },
-                      text: 'Explore Assistants',
+                      text: 'Review tickets',
                       options: FFButtonOptions(
                         width: double.infinity,
                         height: 55.0,

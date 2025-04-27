@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
@@ -151,7 +150,7 @@ class _NavBarPageState extends State<NavBarPage> {
               FFIcons.kmagicpen06,
               size: 24.0,
             ),
-            label: 'Assistants',
+            label: 'Tickets',
             tooltip: '',
           ),
           BottomNavigationBarItem(
