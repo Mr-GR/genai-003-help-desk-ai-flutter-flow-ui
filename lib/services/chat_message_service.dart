@@ -4,6 +4,30 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import '/models/chat.dart';
 
+
+class ChatMessage {
+  final int id;
+  final String userMessage;
+  final String aiResponse;
+  final DateTime createdAt;
+
+  ChatMessage({
+    required this.id,
+    required this.userMessage,
+    required this.aiResponse,
+    required this.createdAt,
+  });
+
+   factory ChatMessage.fromJson(Map<String, dynamic> json) {
+    return ChatMessage(
+      id: json['id'],
+      userMessage: json['user_message'],
+      aiResponse: json['ai_response'] ?? '',
+      createdAt: DateTime.parse(json['created_at']),
+    );
+  }
+}
+
 class ChatService {
   static Future<List<ChatMessage>> fetchUserChats() async {
     final prefs = await SharedPreferences.getInstance();

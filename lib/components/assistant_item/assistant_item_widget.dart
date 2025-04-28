@@ -50,25 +50,6 @@ class _AssistantItemWidgetState extends State<AssistantItemWidget> {
       focusColor: Colors.transparent,
       hoverColor: Colors.transparent,
       highlightColor: Colors.transparent,
-      onTap: () async {
-        context.pushNamed(
-          AssistantChatWidget.routeName,
-          queryParameters: {
-            'emoji': serializeParam(
-              widget.emoji,
-              ParamType.String,
-            ),
-            'title': serializeParam(
-              widget.title,
-              ParamType.String,
-            ),
-            'color': serializeParam(
-              widget.color,
-              ParamType.Color,
-            ),
-          }.withoutNulls,
-        );
-      },
       child: Container(
         width: 171.0,
         decoration: BoxDecoration(

@@ -1,3 +1,6 @@
+import 'package:help_desk/components/history_item/history_item_widget.dart';
+import 'package:help_desk/pages/ticket_detail/ticket_detail_widget.dart';
+
 import '/components/assistant_item/assistant_item_widget.dart';
 import '/flutter_flow/flutter_flow_choice_chips.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
@@ -77,7 +80,7 @@ class _AssistantsWidgetState extends State<AssistantsWidget> {
                       fontWeight: FontWeight.bold,
                     ),
               ),
-              Container(), // Empty placeholder
+              Container(), 
             ],
           ),
           elevation: 0.0,
@@ -89,66 +92,9 @@ class _AssistantsWidgetState extends State<AssistantsWidget> {
             children: [
               Padding(
                 padding: const EdgeInsetsDirectional.fromSTEB(20.0, 0.0, 0.0, 0.0),
-                child: FlutterFlowChoiceChips(
-                  options: [ChipData('All')],
-                  onChanged: (val) => setState(() {
-                    _model.choiceChipsValue = val?.firstOrNull;
-                  }),
-                  selectedChipStyle: ChipStyle(
-                    backgroundColor: FlutterFlowTheme.of(context).primary,
-                    textStyle: FlutterFlowTheme.of(context).bodyMedium.override(
-                          fontFamily: 'Urbanist',
-                          color: FlutterFlowTheme.of(context).info,
-                          letterSpacing: 0.0,
-                        ),
-                    iconColor: FlutterFlowTheme.of(context).info,
-                    iconSize: 16.0,
-                    labelPadding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 7.0),
-                    borderRadius: BorderRadius.circular(30.0),
-                  ),
-                  unselectedChipStyle: ChipStyle(
-                    backgroundColor: Colors.transparent,
-                    textStyle: FlutterFlowTheme.of(context).bodyMedium.override(
-                          fontFamily: 'Urbanist',
-                          color: FlutterFlowTheme.of(context).primaryText,
-                          fontSize: 16.0,
-                          letterSpacing: 0.0,
-                        ),
-                    iconColor: FlutterFlowTheme.of(context).secondaryText,
-                    iconSize: 16.0,
-                    labelPadding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 7.0),
-                    borderColor: FlutterFlowTheme.of(context).alternate,
-                    borderRadius: BorderRadius.circular(30.0),
-                  ),
-                  chipSpacing: 8.0,
-                  rowSpacing: 8.0,
-                  multiselect: false,
-                  alignment: WrapAlignment.start,
-                  controller: _model.choiceChipsValueController ??=
-                      FormFieldController<List<String>>([]),
-                ),
               ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(20.0, 16.0, 20.0, 0.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Tickets',
-                      style: FlutterFlowTheme.of(context).bodyMedium.override(
-                            fontFamily: 'Urbanist',
-                            fontSize: 22.0,
-                            letterSpacing: 0.0,
-                            fontWeight: FontWeight.bold,
-                          ),
-                    ),
-                    Icon(
-                      FFIcons.kright1,
-                      color: FlutterFlowTheme.of(context).primary,
-                      size: 24.0,
-                    ),
-                  ],
-                ),
               ),
               const SizedBox(height: 10),
               Expanded(
@@ -167,10 +113,24 @@ class _AssistantsWidgetState extends State<AssistantsWidget> {
                             separatorBuilder: (_, __) => const SizedBox(height: 10),
                             itemBuilder: (context, index) {
                               final ticket = _model.tickets[index];
-                              return AssistantItemWidget(
-                                emoji: '📩',
-                                title: ticket.ticket,
-                                color: FlutterFlowTheme.of(context).secondaryBackground,
+                              return GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => TicketDetailWidget(ticket: ticket),
+                                    ),
+                                  );
+                                },
+                                child: HistoryItemWidget(
+                                  emoji: '📩',
+                                  title: (ticket.title?.isNotEmpty ?? false)
+                                      ? ticket.title
+                                      : (ticket.userTicket?.isNotEmpty ?? false)
+                                          ? ticket.userTicket!
+                                          : 'No Title',
+                                  color: FlutterFlowTheme.of(context).secondaryBackground,
+                                ),
                               );
                             },
                           ),
