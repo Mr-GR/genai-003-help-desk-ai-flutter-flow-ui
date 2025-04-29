@@ -61,7 +61,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                 ),
               ),
               Text(
-                'ChatMate AI',
+                'Help-Desk AI',
                 style: FlutterFlowTheme.of(context).bodyMedium.override(
                       fontFamily: 'Urbanist',
                       fontSize: 20.0,
@@ -114,7 +114,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                             ),
                           ),
                           TextSpan(
-                            text: 'ChatMate AI 👋',
+                            text: 'Help-Desk AI 👋',
                             style: TextStyle(
                               color: FlutterFlowTheme.of(context).primary,
                             ),
@@ -130,7 +130,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                       textAlign: TextAlign.center,
                     ),
                     Text(
-                      'Start chating with ChatMate AI now.\nAsk anything!',
+                      'Start chating with Help-Desk AI now.\nAsk anything!',
                       textAlign: TextAlign.center,
                       style: FlutterFlowTheme.of(context).bodyMedium.override(
                             fontFamily: 'Urbanist',

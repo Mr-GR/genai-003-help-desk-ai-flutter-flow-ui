@@ -56,7 +56,7 @@ class _AboutWidgetState extends State<AboutWidget> {
                 child: BackBtnWidget(),
               ),
               Text(
-                'About ChatMate AI',
+                'About Help-Desk AI',
                 style: FlutterFlowTheme.of(context).bodyMedium.override(
                       fontFamily: 'Urbanist',
                       fontSize: 20.0,
@@ -96,7 +96,7 @@ class _AboutWidgetState extends State<AboutWidget> {
                     ),
                   ),
                   Text(
-                    'ChatMate AI v1.0.0',
+                    'Help-Desk AI v1.0.0',
                     style: FlutterFlowTheme.of(context).bodyMedium.override(
                           fontFamily: 'Urbanist',
                           fontSize: 24.0,

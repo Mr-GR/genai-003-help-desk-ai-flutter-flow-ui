@@ -181,7 +181,7 @@ class TicketDetailWidget extends StatelessWidget {
             ),
             const SizedBox(height: 20),
             Text(
-              'Agent Response:',
+              'Admin Response:',
               style: FlutterFlowTheme.of(context).bodyMedium.override(
                     fontFamily: 'Urbanist',
                     fontSize: 18,

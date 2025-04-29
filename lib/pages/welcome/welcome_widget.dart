@@ -75,7 +75,7 @@ class _WelcomeWidgetState extends State<WelcomeWidget> {
                         ),
                       ),
                       TextSpan(
-                        text: 'ChatMate AI 👋',
+                        text: 'Help-Desk AI 👋',
                         style: TextStyle(
                           color: FlutterFlowTheme.of(context).primary,
                         ),

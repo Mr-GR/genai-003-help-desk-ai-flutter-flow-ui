@@ -58,7 +58,7 @@ class _HistoryWidgetState extends State<HistoryWidget> {
           await ChatService.deleteChatMessage(messageId);
           await _model.fetchChatHistory();
           showSuccessSnackBar(context, "✅ Chat deleted successfully");
-          setState(() {}); // Refresh list
+          setState(() {}); 
         } catch (e) {
           print('Failed to delete chat: $e');
         }

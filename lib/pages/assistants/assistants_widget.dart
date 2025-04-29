@@ -1,6 +1,5 @@
 import 'package:help_desk/components/history_item/history_item_widget.dart';
 import 'package:help_desk/pages/ticket_detail/ticket_detail_widget.dart';
-
 import '/components/assistant_item/assistant_item_widget.dart';
 import '/flutter_flow/flutter_flow_choice_chips.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
